@@ -23,10 +23,22 @@ Descriptions can reference friends by id with `[[friend_id]]`, for example
 
 Linked moments use the `linked` field with numeric image ids.
 
+The `captured` field is treated as UTC+8 when it does not include an explicit
+timezone suffix. This keeps gallery dates stable for visitors in other
+timezones while matching the VRChat screenshot filename time.
+
 To add blank templates for new `VRChat_*.png` files in `public/photos/`:
 
 ```bash
 python3 scripts/generate_images_json.py
+```
+
+With custom folders:
+
+```bash
+python3 scripts/generate_images_json.py --input public/photos --output src/data
+python3 scripts/batch_rename.py --input raw-photos --output public/photos
+python3 scripts/batch_resize.py --input public/photos --output public/photos/thumbnails
 ```
 
 The script reads the current `src/data/images.json`, skips filenames already in

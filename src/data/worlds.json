@@ -1,22 +1,27 @@
 [
   {
     "id": "prismics.avatar.search",
-    "name": "Prismic's Avatar Search"
+    "name_en": "Prismic's Avatar Search",
+    "name_zh": "Prismic 的皮肤搜索"
   },
   {
     "id": "chinese.memes.museum",
-    "name": "Chinese Memes Museum"
+    "name_en": "Chinese Memes Museum",
+    "name_zh": "中文梗博物馆"
   },
   {
-    "id":"english.hub",
-    "name":"English Hub"
+    "id": "english.hub",
+    "name_en": "English Hub",
+    "name_zh": "英语角"
   },
   {
-    "id":"learn.mandarin",
-    "name":"Learn Mandarin"
+    "id": "learn.mandarin",
+    "name_en": "Learn Mandarin",
+    "name_zh": "学习中文普通话"
   },
   {
-    "id":"karaoke.central",
-    "name":"Karaoke Central"
+    "id": "karaoke.central",
+    "name_en": "Karaoke Central",
+    "name_zh": "卡拉 OK 中心"
   }
 ]

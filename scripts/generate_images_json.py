@@ -85,7 +85,8 @@ def build_images(photos_dir: Path, existing_images: list[JsonObject]) -> list[Js
             "filename": entry.filename,
             "captured": entry.captured,
             "world": "",
-            "description": "",
+            "description_en": "",
+            "description_zh": "",
             "friend": [""],
         }
         for index, entry in enumerate(new_entries, start=next_id)
@@ -135,16 +136,27 @@ def main() -> None:
         description="Create image metadata templates from public/photos/VRChat_*.png files."
     )
     parser.add_argument(
+        "--input",
+        "--input-dir",
         "--photos-dir",
+        dest="input_dir",
         type=Path,
         default=Path("public/photos"),
         help="Directory containing full-size VRChat screenshots.",
     )
     parser.add_argument(
         "--output",
+        "--output-dir",
+        dest="output",
         type=Path,
-        default=Path("src/data/images.json"),
-        help="JSON file to write.",
+        default=Path("src/data"),
+        help="Directory where images.json will be written. A .json path is also accepted.",
+    )
+    parser.add_argument(
+        "--output-file",
+        type=Path,
+        default=None,
+        help="Exact JSON file to write. Overrides --output when provided.",
     )
     parser.add_argument(
         "--dry-run",
@@ -153,12 +165,15 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    photos_dir = args.photos_dir
-    if not photos_dir.is_dir():
-        raise SystemExit(f"Photos directory does not exist: {photos_dir}")
+    input_dir = args.input_dir
+    output = args.output_file or (
+        args.output if args.output.suffix.lower() == ".json" else args.output / "images.json"
+    )
+    if not input_dir.is_dir():
+        raise SystemExit(f"Input directory does not exist: {input_dir}")
 
-    existing_images = read_existing_images(args.output)
-    images = build_images(photos_dir, existing_images)
+    existing_images = read_existing_images(output)
+    images = build_images(input_dir, existing_images)
     payload = dump_json(images) + "\n"
     added_count = len(images) - len(existing_images)
 
@@ -166,9 +181,9 @@ def main() -> None:
         print(payload, end="")
         return
 
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(payload, encoding="utf-8")
-    print(f"Wrote {len(images)} images to {args.output} ({added_count} added)")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(payload, encoding="utf-8")
+    print(f"Wrote {len(images)} images to {output} ({added_count} added)")
 
 
 if __name__ == "__main__":

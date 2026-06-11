@@ -4,9 +4,11 @@ import LazyPhoto from './components/LazyPhoto.vue'
 import friendsData from './data/friends.json'
 import imagesData from './data/images.json'
 import worldsData from './data/worlds.json'
+import { detectPreferredLanguage, languageCopy, type Language } from './i18n'
+import { icons, type SocialIcon } from './icons.ts'
 import type { Friend, GalleryImage, GalleryRow, World } from './types'
+import { parseAsGalleryDate } from './utils/date'
 import { daysSinceVrchatStart, formatGalleryDate, photoPath, thumbnailPath } from './utils/gallery'
-import parseAsOffsetDate from './utils/utils.ts'
 
 type GalleryFilter =
   | {
@@ -25,7 +27,15 @@ const photos = [...(imagesData as GalleryImage[])].sort((a, b) => b.captured.loc
 const friendsById = new Map(friends.map((friend) => [friend.id, friend]))
 const worldsById = new Map(worlds.map((world) => [world.id, world]))
 const photosById = new Map(photos.map((photo) => [photo.id, photo]))
-
+const socialLinks: Array<{ label: string; icon: SocialIcon; href: string }> = [
+  { label: 'GitHub', icon: 'github', href: 'https://github.com/maoawa/mars-vrchat-gallery' },
+  { label: 'X', icon: 'x', href: 'https://twitter.com/winmemzqwq' },
+  { label: 'Telegram', icon: 'telegram', href: 'https://t.me/maoawa' },
+  { label: 'Discord', icon: 'discord', href: 'https://discord.com/users/742704239410675725' },
+  { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/profile.php?id=100088742570811' },
+  { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/winmemzqwq' },
+  { label: 'Email', icon: 'email', href: 'mailto:winmemzqwq@gmail.com' },
+]
 const allGalleryRows: GalleryRow[] = photos
   .filter((photo) => !photo.parent)
   .map((photo) => ({
@@ -36,13 +46,34 @@ const allGalleryRows: GalleryRow[] = photos
   }))
 
 const now = ref(Date.now())
+const currentLanguage = ref<Language>(detectPreferredLanguage())
 const activeIndex = ref<number | null>(null)
+const activePhotoList = ref<GalleryImage[] | null>(null)
 const zoomLevel = ref(1)
 const activeFilter = ref<GalleryFilter | null>(null)
 const galleryColumnCount = ref(1)
 const lightboxStage = ref<HTMLElement | null>(null)
+const activeQrContactId = ref<'wechat' | 'qq' | null>(null)
 
 let clockTimer: number | undefined
+
+const copy = computed(() => languageCopy[currentLanguage.value])
+const contactButtons = computed(() => [
+  {
+    id: 'wechat' as const,
+    label: copy.value.wechat,
+    icon: 'wechat' as SocialIcon,
+    number: '12133206888',
+    qrPath: '/wechat-qr.jpg',
+  },
+  {
+    id: 'qq' as const,
+    label: copy.value.qq,
+    icon: 'qq' as SocialIcon,
+    number: '1874985948',
+    qrPath: '/qq-qr.jpg',
+  },
+])
 
 const galleryRows = computed(() => {
   if (!activeFilter.value) {
@@ -56,6 +87,16 @@ const galleryRows = computed(() => {
 })
 
 const lightboxPhotos = computed(() => galleryRows.value.flatMap((row) => [row.photo, ...row.linkedPhotos]))
+const randomOuting = ref<GalleryRow | null>(
+  allGalleryRows.length ? allGalleryRows[Math.floor(Math.random() * allGalleryRows.length)] : null,
+)
+const randomOutingPhotos = computed(() =>
+  randomOuting.value ? [randomOuting.value.photo, ...randomOuting.value.linkedPhotos] : [],
+)
+const currentLightboxPhotos = computed(() => activePhotoList.value ?? lightboxPhotos.value)
+const activeQrContact = computed(
+  () => contactButtons.value.find((contact) => contact.id === activeQrContactId.value) ?? null,
+)
 const galleryColumns = computed(() => {
   const columns: Array<Array<{ row: GalleryRow; index: number }>> = Array.from(
     { length: galleryColumnCount.value },
@@ -74,7 +115,7 @@ const activePhoto = computed(() => {
     return null
   }
 
-  return lightboxPhotos.value[activeIndex.value] ?? null
+  return currentLightboxPhotos.value[activeIndex.value] ?? null
 })
 
 const activePosition = computed(() => (activeIndex.value === null ? 0 : activeIndex.value + 1))
@@ -83,6 +124,16 @@ const imageCount = computed(() => photos.length)
 const outingCount = computed(() => allGalleryRows.length)
 const filteredOutingCount = computed(() => galleryRows.value.length)
 const zoomLabel = computed(() => `${Math.round(zoomLevel.value * 100)}%`)
+const footerSummary = computed(() => {
+  if (currentLanguage.value === 'zh') {
+    return `${imageCount.value} ${copy.value.photos} · ${outingCount.value} ${copy.value.outings}`
+  }
+
+  return `${imageCount.value} photos · ${outingCount.value} outings`
+})
+const footerDays = computed(() => {
+  return `${copy.value.footerDaysBefore}${daysInVrchat.value}${copy.value.footerDaysAfter}`
+})
 
 const activeFilterLabel = computed(() => {
   if (!activeFilter.value) {
@@ -101,20 +152,25 @@ const zoomSurfaceStyle = computed(() => ({
   height: `${zoomLevel.value * 100}%`,
 }))
 
-function worldFor(photo: GalleryImage) {
-  return worldsById.get(photo.world) ?? { id: photo.world, name: photo.world }
-}
-
 function hasWorld(photo: GalleryImage) {
   return photo.world.trim().length > 0
 }
 
+function localisedText(en?: string, zh?: string) {
+  const enText = typeof en === 'string' ? en : ''
+  const zhText = typeof zh === 'string' ? zh : ''
+
+  return currentLanguage.value === 'zh' ? zhText.trim() || enText : enText.trim() || zhText
+}
+
 function worldName(worldId: string) {
-  return worldsById.get(worldId)?.name ?? worldId
+  const world = worldsById.get(worldId)
+  return world ? localisedText(world.name_en, world.name_zh) : worldId
 }
 
 function friendName(friendId: string) {
-  return friendsById.get(friendId)?.name ?? friendId
+  const friend = friendsById.get(friendId)
+  return friend ? localisedText(friend.name_en, friend.name_zh) : friendId
 }
 
 function friendList(photo: GalleryImage) {
@@ -127,7 +183,15 @@ function friendList(photo: GalleryImage) {
 }
 
 function hasDescription(photo: GalleryImage) {
-  return photo.description.trim().length > 0
+  return photoDescription(photo).trim().length > 0
+}
+
+function photoDescription(photo: GalleryImage) {
+  return localisedText(photo.description_en, photo.description_zh)
+}
+
+function photoAlt(photo: GalleryImage) {
+  return photoDescription(photo) || photo.filename
 }
 
 function descriptionParts(description: string) {
@@ -197,32 +261,59 @@ function applyFriendFilter(friendId: string, closeAfterApply = false) {
 function clearFilter() {
   activeFilter.value = null
   activeIndex.value = null
+  activePhotoList.value = null
 }
 
 function formatLinkedDate(photo: GalleryImage, parentPhoto: GalleryImage) {
-  return isSameGalleryDay(photo, parentPhoto) ? formatTime(photo.captured) : formatGalleryDate(photo.captured)
+  return isSameGalleryDay(photo, parentPhoto) ? formatTime(photo.captured) : formatDate(photo.captured)
 }
 
 function isSameGalleryDay(photo: GalleryImage, parentPhoto: GalleryImage) {
-  const d1 = parseAsOffsetDate(photo.captured);
-  const d2 = parseAsOffsetDate(parentPhoto.captured);
-  return d1.toDateString() === d2.toDateString();
+  const photoDate = parseAsGalleryDate(photo.captured)
+  const parentDate = parseAsGalleryDate(parentPhoto.captured)
+
+  return photoDate.toDateString() === parentDate.toDateString()
 }
 
 function formatTime(capturedAt: string) {
-  const date = parseAsOffsetDate(capturedAt);
+  const date = parseAsGalleryDate(capturedAt)
   const hours = date.getHours()
   const minutes = date.getMinutes()
+
+  if (currentLanguage.value === 'zh') {
+    const meridiem = hours >= 12 ? '下午' : '上午'
+    const hour12 = hours % 12 || 12
+
+    return `${meridiem}${hour12}:${String(minutes).padStart(2, '0')}`
+  }
+
   const meridiem = hours >= 12 ? 'PM' : 'AM'
   const hour12 = hours % 12 || 12
 
   return `${hour12}:${String(minutes).padStart(2, '0')} ${meridiem}`
 }
 
-function openPhoto(photoId: number) {
-  const index = lightboxPhotos.value.findIndex((photo) => photo.id === photoId)
+function formatDate(capturedAt: string) {
+  return formatGalleryDate(capturedAt, currentLanguage.value)
+}
+
+function toggleLanguage() {
+  currentLanguage.value = currentLanguage.value === 'en' ? 'zh' : 'en'
+}
+
+function openQrContact(contactId: 'wechat' | 'qq') {
+  activeQrContactId.value = contactId
+}
+
+function closeQrContact() {
+  activeQrContactId.value = null
+}
+
+function openPhoto(photoId: number, sourcePhotos = lightboxPhotos.value) {
+  const index = sourcePhotos.findIndex((photo) => photo.id === photoId)
 
   if (index >= 0) {
+    activePhotoList.value = sourcePhotos
     activeIndex.value = index
     zoomLevel.value = 1
   }
@@ -230,24 +321,26 @@ function openPhoto(photoId: number) {
 
 function closeLightbox() {
   activeIndex.value = null
+  activePhotoList.value = null
   zoomLevel.value = 1
 }
 
 function showPreviousPhoto() {
-  if (activeIndex.value === null || !lightboxPhotos.value.length) {
+  if (activeIndex.value === null || !currentLightboxPhotos.value.length) {
     return
   }
 
-  activeIndex.value = (activeIndex.value - 1 + lightboxPhotos.value.length) % lightboxPhotos.value.length
+  activeIndex.value =
+    (activeIndex.value - 1 + currentLightboxPhotos.value.length) % currentLightboxPhotos.value.length
   zoomLevel.value = 1
 }
 
 function showNextPhoto() {
-  if (activeIndex.value === null || !lightboxPhotos.value.length) {
+  if (activeIndex.value === null || !currentLightboxPhotos.value.length) {
     return
   }
 
-  activeIndex.value = (activeIndex.value + 1) % lightboxPhotos.value.length
+  activeIndex.value = (activeIndex.value + 1) % currentLightboxPhotos.value.length
   zoomLevel.value = 1
 }
 
@@ -277,6 +370,11 @@ function updateGalleryColumnCount() {
 }
 
 function handleKeydown(event: KeyboardEvent) {
+  if (activeQrContact.value && event.key === 'Escape') {
+    closeQrContact()
+    return
+  }
+
   if (!activePhoto.value) {
     return
   }
@@ -294,8 +392,8 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-watch(activePhoto, (photo) => {
-  document.body.classList.toggle('lightbox-open', Boolean(photo))
+watch([activePhoto, activeQrContact], ([photo, qrContact]) => {
+  document.body.classList.toggle('lightbox-open', Boolean(photo) || Boolean(qrContact))
 
   if (photo) {
     nextTick(centreZoomStage)
@@ -307,6 +405,15 @@ watch(zoomLevel, () => {
     nextTick(centreZoomStage)
   }
 })
+
+watch(
+  currentLanguage,
+  (language) => {
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en-GB'
+    window.localStorage.setItem('gallery-language', language)
+  },
+  { immediate: true },
+)
 
 onMounted(() => {
   updateGalleryColumnCount()
@@ -331,31 +438,96 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="site-shell">
+    <div class="language-switch">
+      <button type="button" :aria-label="copy.languageLabel" @click="toggleLanguage">
+        {{ copy.languageToggle }}
+      </button>
+    </div>
+
     <header class="site-header">
-      <h1>Mars VRChat Gallery</h1>
-      <p class="lede">
-        Hi! I'm Mars. As you can see, this is my personal VRChat gallery. It's still under construction so I may
-        forget to mention some friends. But I didn't mean to ignore them, and I do cherish every friends of mine.
-        Please contact me using methods in <a href="https://maao.cc/" target="_blank" rel="noreferrer">maao.cc</a>
-        or in game. Thanks for appearing in my life and I love you guys!
-      </p>
-      <p class="lede lede-cn">
-        嗨！我是毛毛。正如你所见，这是我的个人 VRChat 画廊。这里仍在建设中，所以我可能会不小心漏掉一些朋友。但我绝不是有意忽略他们，我真心珍视我的每一位朋友。请通过
+      <h1>{{ copy.title }}</h1>
+      <p class="lede" :class="{ 'lede-cn': currentLanguage === 'zh' }">
+        {{ copy.introBeforeLink }}
         <a href="https://maao.cc/" target="_blank" rel="noreferrer">maao.cc</a>
-        上的方式或直接在游戏里联系我。感谢你们出现在我的生活中，我爱你们！
-      </p>
-      <p class="lede lede-note">
-        This website will be available in Chinese soon.<br />
-        本网站将很快支持中文。
+        {{ copy.introAfterLink }}
       </p>
     </header>
 
+    <section v-if="randomOuting" class="random-outing" aria-label="Random outing">
+      <div class="random-outing__header">
+        <p>{{ copy.randomMemory }}</p>
+      </div>
+
+      <article class="random-outing__card">
+        <button
+          class="random-outing__image"
+          type="button"
+          :aria-label="`${copy.open} ${randomOuting.photo.filename}`"
+          @click="openPhoto(randomOuting.photo.id, randomOutingPhotos)"
+        >
+          <LazyPhoto :src="thumbnailPath(randomOuting.photo.filename)" :alt="photoAlt(randomOuting.photo)" />
+        </button>
+
+        <div class="random-outing__body">
+          <div class="photo-kicker">
+            <span class="photo-number">#{{ randomOuting.photo.id }}</span>
+            <time :datetime="randomOuting.photo.captured">{{ formatDate(randomOuting.photo.captured) }}</time>
+            <button v-if="hasWorld(randomOuting.photo)" type="button" @click="applyWorldFilter(randomOuting.photo.world)">
+              {{ worldName(randomOuting.photo.world) }}
+            </button>
+          </div>
+
+          <p v-if="hasDescription(randomOuting.photo)" class="photo-description">
+            <template v-for="(part, index) in descriptionParts(photoDescription(randomOuting.photo))" :key="index">
+              <button
+                v-if="part.type === 'friend'"
+                type="button"
+                class="description-friend"
+                @click="applyFriendFilter(part.id)"
+              >
+                {{ part.name }}
+              </button>
+              <template v-else>{{ part.text }}</template>
+            </template>
+          </p>
+
+          <div v-if="friendList(randomOuting.photo).length" class="friend-row" aria-label="Friends in this outing">
+            <span>{{ copy.with }}</span>
+            <button
+              v-for="friend in friendList(randomOuting.photo)"
+              :key="friend.id"
+              type="button"
+              @click="applyFriendFilter(friend.id)"
+            >
+              {{ friend.name }}
+            </button>
+          </div>
+
+          <div v-if="randomOuting.linkedPhotos.length" class="random-outing__linked">
+            <button
+              v-for="linkedPhoto in randomOuting.linkedPhotos"
+              :key="linkedPhoto.id"
+              type="button"
+              :aria-label="`${copy.open} ${linkedPhoto.filename}`"
+              @click="openPhoto(linkedPhoto.id, randomOutingPhotos)"
+            >
+              <LazyPhoto :src="thumbnailPath(linkedPhoto.filename)" :alt="photoAlt(linkedPhoto)" />
+              <span>#{{ linkedPhoto.id }}</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
     <section v-if="activeFilter" class="filter-strip" aria-live="polite">
       <p>
-        Showing {{ filteredOutingCount }} {{ filteredOutingCount === 1 ? 'outing' : 'outings' }} for
+        {{ copy.showing }} {{ filteredOutingCount }}
+        {{ filteredOutingCount === 1 ? copy.outing : copy.outings }} {{ copy.for }}
         <span>{{ activeFilterLabel }}</span>
       </p>
-      <button type="button" @click="clearFilter">Clear</button>
+      <button type="button" @click="clearFilter">{{ copy.clear }}</button>
     </section>
 
     <section class="gallery" aria-label="VRChat photos">
@@ -364,12 +536,12 @@ onBeforeUnmount(() => {
         <button
           class="photo-trigger"
           type="button"
-          :aria-label="`Open ${entry.row.photo.filename}`"
+          :aria-label="`${copy.open} ${entry.row.photo.filename}`"
           @click="openPhoto(entry.row.photo.id)"
         >
           <LazyPhoto
             :src="thumbnailPath(entry.row.photo.filename)"
-            :alt="entry.row.photo.description || entry.row.photo.filename"
+            :alt="photoAlt(entry.row.photo)"
             :eager="entry.index === 0"
           />
         </button>
@@ -377,14 +549,14 @@ onBeforeUnmount(() => {
         <div class="photo-body">
           <div class="photo-kicker">
             <span class="photo-number">#{{ entry.row.photo.id }}</span>
-            <time :datetime="entry.row.photo.captured">{{ formatGalleryDate(entry.row.photo.captured) }}</time>
+            <time :datetime="entry.row.photo.captured">{{ formatDate(entry.row.photo.captured) }}</time>
             <button v-if="hasWorld(entry.row.photo)" type="button" @click="applyWorldFilter(entry.row.photo.world)">
-              {{ worldFor(entry.row.photo).name }}
+              {{ worldName(entry.row.photo.world) }}
             </button>
           </div>
 
           <p v-if="hasDescription(entry.row.photo)" class="photo-description">
-            <template v-for="(part, index) in descriptionParts(entry.row.photo.description)" :key="index">
+            <template v-for="(part, index) in descriptionParts(photoDescription(entry.row.photo))" :key="index">
               <button
                 v-if="part.type === 'friend'"
                 type="button"
@@ -398,7 +570,7 @@ onBeforeUnmount(() => {
           </p>
 
           <div v-if="friendList(entry.row.photo).length" class="friend-row" aria-label="Friends in this photo">
-            <span>With</span>
+            <span>{{ copy.with }}</span>
             <button
               v-for="friend in friendList(entry.row.photo)"
               :key="friend.id"
@@ -417,15 +589,15 @@ onBeforeUnmount(() => {
               :key="linkedPhoto.id"
               class="linked-trigger"
               type="button"
-              :aria-label="`Open ${linkedPhoto.filename}`"
+              :aria-label="`${copy.open} ${linkedPhoto.filename}`"
               @click="openPhoto(linkedPhoto.id)"
             >
-              <LazyPhoto :src="thumbnailPath(linkedPhoto.filename)" :alt="linkedPhoto.description || linkedPhoto.filename" />
+              <LazyPhoto :src="thumbnailPath(linkedPhoto.filename)" :alt="photoAlt(linkedPhoto)" />
               <span class="linked-caption">
                 <span>{{ formatLinkedDate(linkedPhoto, entry.row.photo) }}</span>
                 <span class="linked-number">#{{ linkedPhoto.id }}</span>
                 <span v-if="hasWorld(linkedPhoto) && linkedPhoto.world !== entry.row.photo.world" class="linked-world">
-                  {{ worldFor(linkedPhoto).name }}
+                  {{ worldName(linkedPhoto.world) }}
                 </span>
               </span>
             </button>
@@ -437,28 +609,72 @@ onBeforeUnmount(() => {
   </main>
 
   <footer class="site-footer">
-    <p>{{ imageCount }} photos · {{ outingCount }} outings</p>
-    <p>{{ daysInVrchat }} days since Mars joined VRChat</p>
+    <div class="footer-stats">
+      <p>{{ footerSummary }}</p>
+      <p>{{ footerDays }}</p>
+    </div>
+
+    <nav class="footer-social" aria-label="Social links">
+      <a
+        v-for="link in socialLinks"
+        :key="link.label"
+        :href="link.href"
+        :aria-label="link.label"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <svg aria-hidden="true" class="social-icon" :viewBox="icons[link.icon].viewBox">
+          <path v-for="path in icons[link.icon].paths" :key="path" :d="path" />
+        </svg>
+      </a>
+
+      <button
+        v-for="contact in contactButtons"
+        :key="contact.id"
+        type="button"
+        :aria-label="contact.label"
+        @click="openQrContact(contact.id)"
+      >
+        <svg aria-hidden="true" class="social-icon" :viewBox="icons[contact.icon].viewBox">
+          <path v-for="path in icons[contact.icon].paths" :key="path" :d="path" />
+        </svg>
+      </button>
+    </nav>
+
+    <div class="footer-contact">
+      <p>{{ copy.copyright }}</p>
+    </div>
   </footer>
 
   <Teleport to="body">
+    <div v-if="activeQrContact" class="qr-modal" role="dialog" aria-modal="true" @click.self="closeQrContact">
+      <section class="qr-panel" :aria-label="activeQrContact.label">
+        <button class="qr-close" type="button" :aria-label="copy.close" @click="closeQrContact">x</button>
+        <img class="qr-image" :src="activeQrContact.qrPath" :alt="`${activeQrContact.label} QR code`" />
+        <div class="qr-caption">
+          <p>{{ activeQrContact.label }}</p>
+          <strong>{{ activeQrContact.number }}</strong>
+        </div>
+      </section>
+    </div>
+
     <div v-if="activePhoto" class="lightbox" role="dialog" aria-modal="true" @click.self="closeLightbox">
-      <button class="lightbox-button lightbox-close" type="button" aria-label="Close" @click="closeLightbox">
+      <button class="lightbox-button lightbox-close" type="button" :aria-label="copy.close" @click="closeLightbox">
         x
       </button>
-      <button class="lightbox-button lightbox-prev" type="button" aria-label="Previous photo" @click="showPreviousPhoto">
+      <button class="lightbox-button lightbox-prev" type="button" :aria-label="copy.previous" @click="showPreviousPhoto">
         &lt;
       </button>
-      <button class="lightbox-button lightbox-next" type="button" aria-label="Next photo" @click="showNextPhoto">
+      <button class="lightbox-button lightbox-next" type="button" :aria-label="copy.next" @click="showNextPhoto">
         &gt;
       </button>
 
       <figure class="lightbox-panel">
         <div class="lightbox-toolbar">
-          <span>{{ activePosition }} / {{ lightboxPhotos.length }}</span>
+          <span>{{ activePosition }} / {{ currentLightboxPhotos.length }}</span>
           <label class="zoom-slider">
-            <span>Zoom {{ zoomLabel }}</span>
-            <input v-model.number="zoomLevel" type="range" min="1" max="2.5" step="0.1" aria-label="Zoom" />
+            <span>{{ copy.zoom }} {{ zoomLabel }}</span>
+            <input v-model.number="zoomLevel" type="range" min="1" max="2.5" step="0.1" :aria-label="copy.zoom" />
           </label>
         </div>
 
@@ -467,7 +683,7 @@ onBeforeUnmount(() => {
             <img
               class="lightbox-image"
               :src="photoPath(activePhoto.filename)"
-              :alt="activePhoto.description || activePhoto.filename"
+              :alt="photoAlt(activePhoto)"
             />
           </div>
         </div>
@@ -475,13 +691,13 @@ onBeforeUnmount(() => {
         <figcaption class="lightbox-caption">
           <div>
             <span>#{{ activePhoto.id }}</span>
-            <time :datetime="activePhoto.captured">{{ formatGalleryDate(activePhoto.captured) }}</time>
+            <time :datetime="activePhoto.captured">{{ formatDate(activePhoto.captured) }}</time>
             <button v-if="hasWorld(activePhoto)" type="button" @click="applyWorldFilter(activePhoto.world, true)">
-              {{ worldFor(activePhoto).name }}
+              {{ worldName(activePhoto.world) }}
             </button>
           </div>
           <p v-if="hasDescription(activePhoto)">
-            <template v-for="(part, index) in descriptionParts(activePhoto.description)" :key="index">
+            <template v-for="(part, index) in descriptionParts(photoDescription(activePhoto))" :key="index">
               <button
                 v-if="part.type === 'friend'"
                 type="button"
@@ -494,7 +710,7 @@ onBeforeUnmount(() => {
             </template>
           </p>
           <p v-if="friendList(activePhoto).length" class="caption-friends">
-            With
+            {{ copy.with }}
             <button
               v-for="friend in friendList(activePhoto)"
               :key="friend.id"

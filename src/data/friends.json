@@ -1,74 +1,82 @@
 [
   {
     "id": "cyan",
-    "name": "Cyan"
+    "name_en": "Cyan"
   },
   {
     "id": "eric",
-    "name": "Eric"
+    "name_en": "Eric"
   },
   {
-    "id": "zihao",
-    "name": "Zihao"
+    "id": "mooncake",
+    "name_en": "Mooncake"
   },
   {
     "id": "unknown_cn",
-    "name": "Unknown"
+    "name_en": "Unknown"
   },
   {
     "id": "infj_cloud",
-    "name": "Cloud"
+    "name_en": "Cloud"
   },
   {
     "id": "wushishan",
-    "name": "Wushishan"
+    "name_en": "Wushishan"
   },
   {
     "id": "kurono",
-    "name": "Kurono"
+    "name_en": "Kurono"
   },
   {
     "id": "waffle",
-    "name": "WaffleSmasher"
+    "name_en": "WaffleSmasher"
   },
   {
     "id": "luse",
-    "name": "Luse"
+    "name_en": "Luse",
+    "name_zh": "绿色"
   },
   {
     "id": "yuan",
-    "name": "Yuan1182"
+    "name_en": "Yuan1182",
+    "name_zh": ""
   },
   {
     "id": "fabio",
-    "name": "Fabio"
+    "name_en": "Fabio"
   },
   {
     "id": "ziyou",
-    "name": "Ziyou"
+    "name_en": "Ziyou",
+    "name_zh": "子由"
   },
   {
     "id": "aiko",
-    "name": "Aiko"
+    "name_en": "Aiko"
   },
   {
     "id": "tucke",
-    "name": "Tucke"
+    "name_en": "Tucke"
   },
   {
     "id": "wangyue",
-    "name":"书湖船妄月(Wangyue)"
+    "name_en": "Wangyue",
+    "name_zh": "书湖船妄月"
   },
   {
     "id": "linus",
-    "name":"Linus"
+    "name_en": "Linus"
   },
   {
     "id": "linlin",
-    "name":"Linlin"
+    "name_en": "Linlin"
   },
   {
     "id": "tony",
-    "name":"Tony"
+    "name_en": "Tony"
+  },
+  {
+    "id": "dr_nykterstein",
+    "name_en": "DrNykterstein"
   }
 ]

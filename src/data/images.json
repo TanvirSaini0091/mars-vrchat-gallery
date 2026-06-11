@@ -4,394 +4,458 @@
     "filename": "VRChat_2026-06-04_01-53-03.png",
     "captured": "2026-06-04T01:53:03",
     "world": "prismics.avatar.search",
-    "description": "My very first photo in VRChat, where [[cyan]] taught me how to pick my favourite avatars.",
-    "friend": ["cyan"]
+    "friend": ["cyan"],
+    "description_en": "My very first photo in VRChat, where [[cyan]] taught me how to pick my favourite avatars.",
+    "description_zh": "这是我在 VRChat 里的第一张照片，[[cyan]] 教我如何挑选自己喜欢的皮肤。"
   },
   {
     "id": 2,
     "filename": "VRChat_2026-06-04_22-35-28.png",
     "captured": "2026-06-04T22:35:28",
     "world": "prismics.avatar.search",
-    "description": "[[eric]] picked his avatar.",
     "friend": ["eric"],
-    "parent": 4
+    "parent": 4,
+    "description_en": "[[eric]] picked his avatar.",
+    "description_zh": "[[eric]] 挑好了他的皮肤。"
   },
   {
     "id": 3,
     "filename": "VRChat_2026-06-04_22-36-07.png",
     "captured": "2026-06-04T22:36:07",
     "world": "prismics.avatar.search",
-    "description": "[[zihao]] is considering which avatar to pick.",
-    "friend": ["zihao"],
-    "parent": 4
+    "friend": ["mooncake"],
+    "parent": 4,
+    "description_en": "[[mooncake]] is considering which avatar to pick.",
+    "description_zh": "[[mooncake]] 正在考虑要选哪个皮肤。"
   },
   {
     "id": 4,
     "filename": "VRChat_2026-06-04_22-59-40.png",
     "captured": "2026-06-04T22:59:40",
     "world": "chinese.memes.museum",
-    "description": "I invited two of my best friends to play VRChat together. I brought them to pick their avatars. Then we visited Chinese Memes Museums, a well-known VRChat world in China.",
-    "friend": ["eric", "zihao"],
-    "linked": [2, 3]
+    "friend": ["mooncake", "eric"],
+    "linked": [2, 3],
+    "description_en": "I invited two of my best friends to play VRChat together. I brought them to pick their avatars. Then we visited Chinese Memes Museums, a well-known VRChat world in China.",
+    "description_zh": "我邀请了两个最好的朋友一起玩 VRChat。我先带他们去挑皮肤，然后我们去了中文梗博物馆，这是中国 VRChat 圈子里一个很有名的世界。"
   },
   {
     "id": 5,
     "filename": "VRChat_2026-06-05_00-04-18.png",
     "captured": "2026-06-05T00:04:18",
     "world": "english.hub",
-    "description": "Me and [[eric]] met a group of Chinese and had fun together.",
-    "friend": ["eric", "wushishan"]
+    "friend": ["eric", "wushishan"],
+    "description_en": "Me and [[eric]] met a group of Chinese and had fun together.",
+    "description_zh": "我和 [[eric]] 遇到了一群中国人，并一起玩得很开心。"
   },
   {
     "id": 6,
     "filename": "VRChat_2026-06-05_00-04-48.png",
     "captured": "2026-06-05T00:04:48",
     "world": "english.hub",
-    "description": "",
-    "friend": ["kurono"]
+    "friend": ["kurono"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 7,
     "filename": "VRChat_2026-06-05_18-08-32.png",
     "captured": "2026-06-05T18:08:32",
     "world": "learn.mandarin",
-    "description": "Met an American in Learn Mandarin world and we talked about human's future.",
     "friend": ["waffle"],
-    "linked": [8]
+    "linked": [8],
+    "description_en": "Met an American in Learn Mandarin world and we talked about human's future.",
+    "description_zh": "在 学习中文普通话 世界里遇到了一位美国人，我们聊了关于人类未来的话题。"
   },
   {
     "id": 8,
     "filename": "VRChat_2026-06-05_18-33-33.png",
     "captured": "2026-06-05T18:33:33",
     "world": "learn.mandarin",
-    "description": "",
     "friend": [""],
-    "parent": 7
+    "parent": 7,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 9,
     "filename": "VRChat_2026-06-05_21-23-57.png",
     "captured": "2026-06-05T21:23:57",
     "world": "",
-    "description": "",
     "friend": [""],
-    "parent": 10
+    "parent": 10,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 10,
     "filename": "VRChat_2026-06-05_21-40-38.png",
     "captured": "2026-06-05T21:40:38",
     "world": "",
-    "description": "I met a guy who designs all his avatars and outfits by himself with his own \"brand\".",
     "friend": ["luse"],
-    "linked": [9]
+    "linked": [9],
+    "description_en": "I met a guy who designs all his avatars and outfits by himself with his own \"brand\".",
+    "description_zh": "我遇到了一个自己设计所有皮肤和服装的人，而且他还有自己的“品牌”。"
   },
   {
     "id": 11,
     "filename": "VRChat_2026-06-06_00-50-32.png",
     "captured": "2026-06-06T00:50:32",
     "world": "karaoke.central",
-    "description": "Tried a karaoke world in VRChat, and surprisingly got two friends who listen to me.",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "Tried a karaoke world in VRChat, and surprisingly got two friends who listen to me.",
+    "description_zh": "试了一个 VRChat 里的卡拉 OK 世界，没想到居然有两个新朋友愿意听我唱。"
   },
   {
     "id": 12,
     "filename": "VRChat_2026-06-06_21-54-36.png",
     "captured": "2026-06-06T21:54:36",
     "world": "english.hub",
-    "description": "",
-    "friend": ["yuan"]
+    "friend": ["yuan"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 13,
     "filename": "VRChat_2026-06-06_22-57-54.png",
     "captured": "2026-06-06T22:57:54",
     "world": "english.hub",
-    "description": "So cuuute! Also met Dan Heng, a character from the same game with my avatar.",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "So cuuute! Also met Dan Heng, a character from the same game with my avatar.",
+    "description_zh": "太可爱了！还遇到了丹恒，和我的皮肤来自同一个游戏。"
   },
   {
     "id": 14,
     "filename": "VRChat_2026-06-06_23-03-09.png",
     "captured": "2026-06-06T23:03:09",
     "world": "english.hub",
-    "description": "So cuuuuuute again!!",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "So cuuuuuute again!!",
+    "description_zh": "又一次，太可爱了！！"
   },
   {
     "id": 15,
     "filename": "VRChat_2026-06-06_23-30-36.png",
     "captured": "2026-06-06T23:30:36",
     "world": "english.hub",
-    "description": "I met a 13-year-old Chinese boy who's surprisingly able to speak English fluently in this age.",
-    "friend": [""]
+    "friend": ["eric_yang"],
+    "description_en": "I met a 13-year-old Chinese boy who's surprisingly able to speak English fluently in this age.",
+    "description_zh": "我遇到了一个 13 岁的中国男孩，没想到他这个年纪英语就能说得这么流利。"
   },
   {
     "id": 16,
     "filename": "VRChat_2026-06-06_23-54-44.png",
     "captured": "2026-06-06T23:54:44",
     "world": "english.hub",
-    "description": "Someone's handing out areca nut. But we're good boy and shouldn't accept.",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "Someone's handing out areca nut. But we're good boy and shouldn't accept.",
+    "description_zh": "有人在发槟榔。不过我们是好孩子，不应该收。"
   },
   {
     "id": 17,
     "filename": "VRChat_2026-06-07_00-02-02.png",
     "captured": "2026-06-07T00:02:02",
     "world": "english.hub",
-    "description": "",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 18,
     "filename": "VRChat_2026-06-07_13-22-41.png",
     "captured": "2026-06-07T13:22:41",
     "world": "english.hub",
-    "description": "",
-    "friend": ["yuan", "fabio"]
+    "friend": ["yuan", "fabio"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 19,
     "filename": "VRChat_2026-06-07_14-55-39.png",
     "captured": "2026-06-07T14:55:39",
     "world": "english.hub",
-    "description": "I saw those photo prints showing circuit board. And met a friend who's designing his 3rd version of full body tracking solutions. That's pro.",
-    "friend": ["aiko"]
+    "friend": ["aiko"],
+    "description_en": "I saw those photo prints showing circuit board. And met a friend who's designing his 3rd version of full body tracking solutions. That's pro.",
+    "description_zh": "我看到那些照片打印出来的东西展示着电路板。还遇到了一位正在设计第三版全身追踪方案的朋友。太专业了。"
   },
   {
     "id": 20,
     "filename": "VRChat_2026-06-07_22-59-21.png",
     "captured": "2026-06-07T22:59:21",
     "world": "english.hub",
-    "description": "That day is the first day of the Gaokao, the National College Entrance Examination, which is the most important exam for every student in mainland China. [[ziyou]], [[unknown_cn]] and I introduced this to some foreign friends. And we wrote \"Good luck on the Gaokao!\".",
-    "friend": ["ziyou", "unknown_cn", "kurono"]
+    "friend": ["ziyou", "unknown_cn", "kurono"],
+    "description_en": "That day is the first day of the Gaokao, the National College Entrance Examination, which is the most important exam for every student in mainland China. [[ziyou]], [[unknown_cn]] and I introduced this to some foreign friends. And we wrote \"Good luck on the Gaokao!\".",
+    "description_zh": "那天是高考第一天。[[ziyou]]、[[unknown_cn]] 和我向一些外国朋友介绍了高考。然后我们写下了“高考加油！”"
   },
   {
     "id": 21,
     "filename": "VRChat_2026-06-07_23-03-49.png",
     "captured": "2026-06-07T23:03:49",
     "world": "english.hub",
-    "description": "",
     "friend": ["ziyou"],
-    "parent": 22
+    "parent": 22,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 22,
     "filename": "VRChat_2026-06-07_23-56-17.png",
     "captured": "2026-06-07T23:56:17",
     "world": "english.hub",
-    "description": "",
     "friend": ["ziyou"],
-    "linked": [21]
+    "linked": [21],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 23,
     "filename": "VRChat_2026-06-08_00-01-28.png",
     "captured": "2026-06-08T00:01:28",
     "world": "english.hub",
-    "description": "A person with soldier avatar caught my eyes, and I walked to him to greet. I later learned that he was a 72-year-old British gentleman.",
-    "friend": ["tucke"]
+    "friend": ["tucke"],
+    "description_en": "A person with soldier avatar caught my eyes, and I walked to him to greet. I later learned that he was a 72-year-old British gentleman.",
+    "description_zh": "一个士兵皮肤的人吸引了我的注意，于是我走过去和他打招呼。后来我才知道，他是一位 72 岁的英国老人。"
   },
   {
     "id": 24,
     "filename": "VRChat_2026-06-08_14-07-34.png",
     "captured": "2026-06-08T14:07:34",
     "world": "english.hub",
-    "description": "I met a polyglot from South Korea. He can speak many languages even Latin.",
-    "friend": [""]
+    "friend": [""],
+    "description_en": "I met a polyglot from South Korea. He can speak many languages even Latin.",
+    "description_zh": "我遇到了一位来自韩国的多语言者。他会说很多语言，甚至包括拉丁语。"
   },
   {
     "id": 25,
     "filename": "VRChat_2026-06-08_15-35-13.png",
     "captured": "2026-06-08T15:35:13",
     "world": "english.hub",
-    "description": "",
-    "friend": ["unknown_cn", "infj_cloud", "wangyue"]
+    "friend": ["unknown_cn", "infj_cloud", "wangyue"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 26,
     "filename": "VRChat_2026-06-08_16-48-41.png",
     "captured": "2026-06-08T16:48:41",
     "world": "english.hub",
-    "description": "This must be the most impressive experience so far. A group of Chinese met some American people. And we talked about many topics to high school life to law differences. And in the end we even discussed a math question and physics question!?",
     "friend": ["tony", "wangyue", "linus"],
-    "linked": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+    "linked": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41],
+    "description_en": "This must be the most impressive experience so far. A group of Chinese met some American people. And we talked about many topics from high school life to cultural and law differences. And in the end we even discussed a math question and physics question!?",
+    "description_zh": "这一定是目前为止最令人印象深刻的一次经历。一群中国人遇到了一些美国人，我们聊了很多话题，从高中生活到国家间的文化法律差异。最后我们甚至还讨论了一道数学题和一道物理题！？"
   },
   {
     "id": 27,
     "filename": "VRChat_2026-06-08_16-55-05.png",
     "captured": "2026-06-08T16:55:05",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 28,
     "filename": "VRChat_2026-06-08_16-55-50.png",
     "captured": "2026-06-08T16:55:50",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 29,
     "filename": "VRChat_2026-06-08_16-56-35.png",
     "captured": "2026-06-08T16:56:35",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 30,
     "filename": "VRChat_2026-06-08_16-57-25.png",
     "captured": "2026-06-08T16:57:25",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 31,
     "filename": "VRChat_2026-06-08_17-03-26.png",
     "captured": "2026-06-08T17:03:26",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 32,
     "filename": "VRChat_2026-06-08_17-07-29.png",
     "captured": "2026-06-08T17:07:29",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 33,
     "filename": "VRChat_2026-06-08_17-12-18.png",
     "captured": "2026-06-08T17:12:18",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 34,
     "filename": "VRChat_2026-06-08_17-12-47.png",
     "captured": "2026-06-08T17:12:47",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 35,
     "filename": "VRChat_2026-06-08_17-21-29.png",
     "captured": "2026-06-08T17:21:29",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 36,
     "filename": "VRChat_2026-06-08_17-21-38.png",
     "captured": "2026-06-08T17:21:38",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 37,
     "filename": "VRChat_2026-06-08_17-21-52.png",
     "captured": "2026-06-08T17:21:52",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 38,
     "filename": "VRChat_2026-06-08_17-22-31.png",
     "captured": "2026-06-08T17:22:31",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 39,
     "filename": "VRChat_2026-06-08_17-29-34.png",
     "captured": "2026-06-08T17:29:34",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 40,
     "filename": "VRChat_2026-06-08_17-31-36.png",
     "captured": "2026-06-08T17:31:36",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 41,
     "filename": "VRChat_2026-06-08_17-35-47.png",
     "captured": "2026-06-08T17:35:47",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 26
+    "parent": 26,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 42,
     "filename": "VRChat_2026-06-09_00-06-29.png",
     "captured": "2026-06-09T00:06:29",
     "world": "english.hub",
-    "description": "Burgercats stack!",
     "friend": [""],
-    "linked": [44]
+    "linked": [44],
+    "description_en": "Burgercats stack!",
+    "description_zh": "汉堡猫叠叠乐！"
   },
   {
     "id": 43,
     "filename": "VRChat_2026-06-09_00-18-00.png",
     "captured": "2026-06-09T00:18:00",
     "world": "english.hub",
-    "description": "",
-    "friend": ["tony", "linlin"]
+    "friend": ["tony", "linlin"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 44,
     "filename": "VRChat_2026-06-09_00-25-03.png",
     "captured": "2026-06-09T00:25:03",
     "world": "english.hub",
-    "description": "",
     "friend": [""],
-    "parent": 42
+    "parent": 42,
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 45,
     "filename": "VRChat_2026-06-09_00-42-56.png",
     "captured": "2026-06-09T00:42:56",
     "world": "english.hub",
-    "description": "",
-    "friend": ["wangyue"]
+    "friend": ["wangyue"],
+    "description_en": "",
+    "description_zh": ""
   },
   {
     "id": 46,
     "filename": "VRChat_2026-06-09_01-14-57.png",
     "captured": "2026-06-09T01:14:57",
     "world": "english.hub",
-    "description": "Great to see [[infj_cloud]] again, we talked about the future of programming and ourselves.",
-    "friend": ["infj_cloud", "wangyue"]
+    "friend": ["wangyue", "infj_cloud"],
+    "description_en": "Great to see [[infj_cloud]] again, we talked about the future of programming and ourselves.",
+    "description_zh": "很高兴再次见到 [[infj_cloud]]，我们聊了关于编程，以及关于我们自己的未来。"
+  },
+  {
+    "id": 47,
+    "filename": "VRChat_2026-06-10_23-50-11.png",
+    "captured": "2026-06-10T23:50:11",
+    "world": "english.hub",
+    "friend": ["unknown_cn", "infj_cloud", "linus"],
+    "description_en": "I shared my personal experience about finding ways to study aboard, and I do appreciate that everyone was good listeners",
+    "description_zh": "我分享了自己寻找留学途径的个人经历，也真的很感谢大家都认真听我讲。"
+  },
+  {
+    "id": 48,
+    "filename": "VRChat_2026-06-11_23-55-40.png",
+    "captured": "2026-06-11T23:55:40",
+    "world": "english.hub",
+    "friend": ["infj_cloud", "dr_nykterstein"],
+    "description_en": "Got a new friend from Kazakstan who speaks English, local language Kazakh and Russian fluently. And even Chinese!",
+    "description_zh": "交到了一位来自哈萨克斯坦的新朋友，他能流利地说英语、当地语言哈萨克语和俄语，甚至还会中文！"
   }
 ]
